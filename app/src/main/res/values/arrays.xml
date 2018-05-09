@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 알림 방법 설정 -->
+    <string-array name="alarmMethodArray">
+        <item>팝업(무음)</item>
+        <item>진동</item>
+        <item>팝업과 진동</item>
+    </string-array>
+    <string-array name="alarmMethodArray_values">
+        <item>popup</item>
+        <item>vibration</item>
+        <item>popupVibration</item>
+    </string-array>
+
+    <!-- 팝업 알림의 위치설정 -->
+    <string-array name="popupLocationArray">
+        <item>상단</item>
+        <item>중단</item>
+        <item>하단</item>
+    </string-array>
+    <string-array name="popupLocationArray_values">
+        <item>top</item>
+        <item>middle</item>
+        <item>bottom</item>
+    </string-array>
+
+    <!-- 알림의 주기설정 -->
+    <string-array name="alarmPeriodArray">
+        <item>5분</item>
+        <item>10분</item>
+        <item>15분</item>
+        <item>20분</item>
+        <item>25분</item>
+        <item>30분</item>
+    </string-array>
+    <string-array name="alarmPeriodArray_values">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+
+    <!-- 앱의 실행방법 설정 -->
+    <string-array name="appExeMethodArray">
+        <item>부팅 시 자동으로 시작하기</item>
+        <item>수동으로 시작하기</item>
+    </string-array>
+    <string-array name="appExeMethodArray_values">
+        <item>exeOnBooting</item>
+        <item>whenUserWant</item>
+    </string-array>
+</resources>

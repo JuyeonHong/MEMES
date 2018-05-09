@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 환경설정 화면의 레이아웃을 표현하는 파일 -->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="알림 설정">
+
+        <ListPreference
+            android:defaultValue="popup"
+            android:key="alarmMethodList"
+            android:title="알림 방법"
+            android:entries="@array/alarmMethodArray"
+            android:entryValues="@array/alarmMethodArray_values">
+        </ListPreference>
+
+        <ListPreference
+            android:defaultValue="top"
+            android:key="popupLocationList"
+            android:title="팝업 위치"
+            android:entries="@array/popupLocationArray"
+            android:entryValues="@array/popupLocationArray_values">
+        </ListPreference>
+
+        <ListPreference
+            android:defaultValue="5"
+            android:key="alarmPeriodList"
+            android:title="알림 주기"
+            android:entries="@array/alarmPeriodArray"
+            android:entryValues="@array/alarmPeriodArray_values">
+        </ListPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="일반 설정">
+
+        <ListPreference
+            android:defaultValue="exeOnBooting"
+            android:key="appExeMethodList"
+            android:title="앱 실행 방법"
+            android:entries="@array/appExeMethodArray"
+            android:entryValues="@array/appExeMethodArray_values">
+        </ListPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
