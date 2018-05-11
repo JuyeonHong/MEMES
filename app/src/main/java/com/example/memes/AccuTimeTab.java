@@ -1,4 +1,17 @@
 package com.example.memes;
 
-public class StretchingTab {
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+public class AccuTimeTab extends Fragment{
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_accutime, container, false);
+        return rootView;
+    }
 }
