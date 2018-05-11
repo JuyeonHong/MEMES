@@ -4,8 +4,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context="com.example.memes.MainActivity$PlaceholderFragment">
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/section_label"
@@ -29,28 +28,52 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="86dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="목 각도:" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="88dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="경추부담:" />
+            <TextView
+                android:id="@+id/textView_angle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="목 각도: "
+                android:textSize="30dp"/>
+
+            <TextView
+                android:id="@+id/textView_realAngle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="30dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="경추부담:"
+                android:textSize="30dp"/>
+
+            <TextView
+                android:id="@+id/textView_realWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="30dp"/>
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:text="
-                                           거북목 누적시간을 알아보세요 ->" />
+            android:id="@+id/textView_gotoTab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="20dp"
+            android:text="거북목 누적시간을 알아보세요 ->" />
 
     </LinearLayout>
 
@@ -79,23 +102,20 @@
         tools:layout_editor_absoluteY="2dp">
 
         <ImageButton
+            android:id="@+id/imageButton_info"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/image7"
-            android:onClick="inClick"
-            />
+            android:src="@drawable/image7"/>
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/imageButton_settings"
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/image5"
-            android:onClick="onClick"
-            />
+            android:src="@drawable/image5"/>
 
     </LinearLayout>
 
