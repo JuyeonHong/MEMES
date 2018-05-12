@@ -24,7 +24,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
-<<<<<<< HEAD
+
     androidTestImplementation('com.android.support.test:runner:1.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -32,12 +32,5 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-=======
-    androidTestImplementation('com.android.support.test:runner:1.0.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
->>>>>>> da53636f1651993dee911e3c4fb34e7e3a67047f
+
 }
