@@ -14,15 +14,18 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+
+
 public class MainTab extends Fragment{
 
     private TextView textViewRealAngle;
+    private TextView textViewRealWeight;
     private ImageButton infoImgBtn;
     private ImageButton settingsImgBtn;
 
     /*Used for Accelometer & Gyroscoper*/
     private SensorManager mSensorManager = null;
-    private MainTab.UserSensorListner userSensorListner;
+    private UserSensorListner userSensorListner;
     private Sensor mGyroscopeSensor = null;
     private Sensor mAccelerometer = null;
 
@@ -38,24 +41,25 @@ public class MainTab extends Fragment{
     private double timestamp;
     private double dt;
     private double temp;
-    private boolean running;
+    //private boolean running;
     private boolean gyroRunning;
     private boolean accRunning;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        // super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
-        mSensorManager.registerListener(userSensorListner, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(userSensorListner, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        textViewRealWeight=rootView.findViewById(R.id.textView_realWeight);
 
         mSensorManager = (SensorManager)getActivity().getSystemService(Context.SENSOR_SERVICE);
         userSensorListner = new UserSensorListner();
         mGyroscopeSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mAccelerometer= mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mSensorManager.registerListener(userSensorListner, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(userSensorListner, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
 
 
         infoImgBtn = rootView.findViewById(R.id.imageButton_info);
@@ -75,9 +79,11 @@ public class MainTab extends Fragment{
                 startActivity(intent);
             }
         });
+
+
+
         return rootView;
     }
-
     /**
      * 1차 상보필터 적용 메서드 */
     private void complementaty(double new_ts){
@@ -109,10 +115,43 @@ public class MainTab extends Fragment{
         temp = (1/a) * (mAccRoll - roll) + mGyroValues[0];
         roll = roll + (temp*dt);
 
+        if(roll>=75.0&&roll<=90.0)
+        {
+            textViewRealAngle.setText("0°~15°");
+            textViewRealWeight.setText("4.5KG");
+        }
+        else if(roll>=60.0&&roll<75.0)
+        {
+            textViewRealAngle.setText("15°~30°");
+            textViewRealWeight.setText("12KG");
+        }
+        else if(roll>=45.0&&roll<60.0)
+        {
+            textViewRealAngle.setText("30°~45°");
+            textViewRealWeight.setText("18KG");
+        }
+        else if(roll>=30.0&&roll<45.0)
+        {
+            textViewRealAngle.setText("45°~60°");
+            textViewRealWeight.setText("22KG");
+        }
+        else if(roll>90.0)
+        {
+            textViewRealAngle.setText("~0°");
+            textViewRealWeight.setText("누워계신가요?");
+        }
+        else
+        {
+            textViewRealAngle.setText("90°~");
+            textViewRealWeight.setText("27KG 이상!! 거북이네...");
+        }
+
+
+        // tv_pitch.setText("pitch : "+pitch);
 
     }
 
-    public class UserSensorListner implements SensorEventListener {
+    public class UserSensorListner implements SensorEventListener{
 
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -148,8 +187,8 @@ public class MainTab extends Fragment{
             }
 
         }
+
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     }
-
 }
