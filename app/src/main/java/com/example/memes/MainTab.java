@@ -1,6 +1,11 @@
 package com.example.memes;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,9 +22,12 @@ import android.util.Log;
 import android.widget.Button;
 
 
+
+
 public class MainTab extends Fragment{
 
     private TextView textViewRealAngle;
+    private TextView textViewRealWeight;
     private ImageButton infoImgBtn;
     private ImageButton settingsImgBtn;
 
@@ -40,19 +48,32 @@ public class MainTab extends Fragment{
 
     /*for unsing complementary fliter*/
     private float a = 0.2f;
-    private static final float NS2S = 1.0f / 1000000000.0f;
+    private static final float NS2S = 1.0f/1000000000.0f;
+
     private double pitch = 0, roll = 0;
     private double timestamp;
     private double dt;
     private double temp;
+
     private boolean running;
     private boolean gyroRunning;
     private boolean accRunning;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+       // super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
+        textViewRealWeight=rootView.findViewById(R.id.textView_realWeight);
+
+        mSensorManager = (SensorManager)getActivity().getSystemService(Context.SENSOR_SERVICE);
+        userSensorListner = new UserSensorListner();
+        mGyroscopeSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        mAccelerometer= mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mSensorManager.registerListener(userSensorListner, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(userSensorListner, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+
 
         //Using the Gyroscope & Accelometer
         //1. 센서 매니저 생성 -> getSystemSerVice를 이용
@@ -84,7 +105,6 @@ public class MainTab extends Fragment{
                 startActivity(intent);
             }
         });
-
         return rootView;
     }
 
@@ -104,8 +124,7 @@ public class MainTab extends Fragment{
         mSensorManager.unregisterListener(userSensorListner);
     }
 
-    /**
-     * 1차 상보필터 적용 메서드 */
+     /* 1차 상보필터 적용 메서드 */
     private void complementaty(double new_ts){
 
         /* 자이로랑 가속 해제 */
@@ -137,6 +156,37 @@ public class MainTab extends Fragment{
 
         textViewRealAngle.setText(""+roll);
 
+        if(roll>=75.0&&roll<=90.0)
+        {
+            textViewRealAngle.setText("0°~15°");
+            textViewRealWeight.setText("4.5KG");
+        }
+        else if(roll>=60.0&&roll<75.0)
+        {
+            textViewRealAngle.setText("15°~30°");
+            textViewRealWeight.setText("12KG");
+        }
+        else if(roll>=45.0&&roll<60.0)
+        {
+            textViewRealAngle.setText("30°~45°");
+            textViewRealWeight.setText("18KG");
+        }
+        else if(roll>=30.0&&roll<45.0)
+        {
+            textViewRealAngle.setText("45°~60°");
+            textViewRealWeight.setText("22KG");
+        }
+        else if(roll>90.0)
+        {
+            textViewRealAngle.setText("~0°");
+            textViewRealWeight.setText("누워계신가요?");
+        }
+        else
+        {
+            textViewRealAngle.setText("90°~");
+            textViewRealWeight.setText("27KG 이상!! 거북이네...");
+        }
+       // tv_pitch.setText("pitch : "+pitch);
     }
 
     public class UserSensorListner implements SensorEventListener{
@@ -147,14 +197,23 @@ public class MainTab extends Fragment{
 
                 /** GYROSCOPE */
                 case Sensor.TYPE_GYROSCOPE:
+
                     /*센서 값을 mGyroValues에 저장*/
                     mGyroValues = event.values;
                     if(!gyroRunning)
                         gyroRunning = true;
+
+                    /*센서 값을 mGyroValues에 저장*/
+                    mGyroValues = event.values;
+
+                    if(!gyroRunning)
+                        gyroRunning = true;
+
                     break;
 
                 /** ACCELEROMETER */
                 case Sensor.TYPE_ACCELEROMETER:
+
                     /*센서 값을 mAccValues에 저장*/
                     mAccValues = event.values;
                     if(!accRunning)
@@ -172,3 +231,4 @@ public class MainTab extends Fragment{
         public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     }
 }
+
