@@ -1,22 +1,219 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
+    android:id="@+id/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="tab3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fillViewport="true"
+        android:scrollbarStyle="insideInset"
+        android:visibility="visible">
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/selftest_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:text="거북목 자가진단방법"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="@color/stlabel" />
+
+            <TextView
+                android:id="@+id/selftestex_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="바르게 서서 옆모습을 사진을 찍은 후 귀의 중간이 어깨 중간의 위치를 비교해보자. 같은 수직선상에 있으면 정상이지만 중간보다 앞으로 2.5cm 이상 나와 있다면 거북목증후군이 진행 중일 확률이 크다."
+                android:textColor="@color/sttext"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/stretching_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="거북목 스트레칭"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="@color/stlabel" />
+
+            <TextView
+                android:id="@+id/stretchmethod_label1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="1. 목 젖히기"
+                android:textSize="16dp"
+                android:textColor="@color/sttext" />
+
+            <ImageView
+                android:id="@+id/stimg1"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/st1" />
+
+            <TextView
+                android:id="@+id/stretchmethod_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="① 목 뒤에 얇은 수건(혹은 손깍지)을 두릅니다.\n② 앞으로 당기며 목을 중심으로 고개를 뒤로 젖힙니다.\n③ 5초간 자세 유지 후 다시 정면을 봅니다.\n④ 10회 실시합니다."
+                android:textColor="@color/sttext" />
+
+            <TextView
+                android:id="@+id/stretchmethod_label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="2. 으쓱으쓱 운동"
+                android:textSize="16dp"
+                android:textColor="@color/sttext" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/stimg22"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/st2" />
+
+                <ImageView
+                    android:id="@+id/stimg2"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/st22" />
+            </TableRow>
+
+            <TextView
+                android:id="@+id/stretchmethod2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="① 손목을 위로 꺾고 팔꿈치를 쭉 폅니다.\n② 어깨를 귀까지 끌어 올린 후 5~7초 유지합니다.\n③ 어깨가 떨릴 때까지 자세를 유지합니다.\n④ 내쉬는 숨에 어깨를 떨어뜨립니다."
+                android:textColor="@color/sttext"
+                />
+
+            <TextView
+                android:id="@+id/stretchmethod_label3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="3. 앞 목 늘리기"
+                android:textSize="16dp"
+                android:textColor="@color/sttext"
+                />
+
+            <ImageView
+                android:id="@+id/stimg3"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/st3" />
+
+            <TextView
+                android:id="@+id/stretchmethod3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="① 손을 편 채로 마주 댑니다.\n② 두 엄지 손가락으로 턱을 받쳐줍니다.\n③ 턱을 천장을 향해 밀면서 올려줍니다.\n④ 5초간 자세 유지 후 2회 반복합니다."
+                android:textColor="@color/sttext"
+                />
+
+            <TextView
+                android:id="@+id/stretchmethod_label4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="4. 측면 목 강화운동"
+                android:textSize="16dp"
+                android:textColor="@color/sttext"
+                />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/stimg4"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/st4" />
+
+                <ImageView
+                    android:id="@+id/stimg44"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/st44" />
+            </TableRow>
+
+            <TextView
+                android:id="@+id/stretchmethod4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="① 목, 가슴, 허리를 바르게 펴줍니다.\n② 손으로 머리 위를 감싸줍니다.\n③ 손에 힘을 주고 머리를 당깁니다.\n④ 15초간 자세 유지 후 3회 반복합니다.\n⑤ 반대편도 동일한 방법으로 반복합니다."
+                android:textColor="@color/sttext" />
+
+            <TextView
+                android:id="@+id/resource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
