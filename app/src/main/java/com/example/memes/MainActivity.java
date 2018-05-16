@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
+import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,6 +20,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +48,18 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        /*title 없애기*/
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("");
+        toolbar.setSubtitle("");
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        TabItem Maintab=findViewById(R.id.tabItem);
+        TabItem AccTimetab=findViewById(R.id.tabItem2);
+        TabItem Strectchingtab=findViewById(R.id.tabItem3);
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -55,7 +70,60 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        //tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+                Toolbar toolbar = findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+
+                TabLayout tabLayout = findViewById(R.id.tabs);
+                tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+                if (tab.getPosition() == 1) {
+
+                    toolbar.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            R.color.colorPrimary));
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            R.color.colorPrimary));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
+                                R.color.colorPrimary));
+                    }
+
+                } else if (tab.getPosition() == 2) {
+                    toolbar.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            R.color.colorAccent));
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            R.color.colorAccent));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
+                                R.color.colorAccent));
+                    }
+                } else {
+                    toolbar.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            R.color.colorPrimaryDark));
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
+                            R.color.colorPrimaryDark));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
+                                R.color.colorPrimaryDark));
+                    }
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
