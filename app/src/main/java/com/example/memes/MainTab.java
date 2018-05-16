@@ -143,7 +143,7 @@ public class MainTab extends Fragment{
         else
         {
             textViewRealAngle.setText("90°~");
-            textViewRealWeight.setText("27KG 이상!! 거북이네...");
+            textViewRealWeight.setText("27KG 이상!");
         }
 
 
