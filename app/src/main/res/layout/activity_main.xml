@@ -64,6 +64,8 @@
                 android:layout_height="wrap_content"
                 android:text="스트레칭" />
 
+
+
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -74,4 +76,10 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
+
+
+
+
+
 </android.support.design.widget.CoordinatorLayout>
+

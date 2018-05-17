@@ -38,6 +38,7 @@ public class MainTab extends Fragment{
     private Sensor mAccelerometer = null;
 
     //Using the Gyroscope
+
     private SensorEventListener mGyroLis;  //3. 센서 리스너 생성
     //private Sensor mGgyroSensor = null;
 
@@ -60,8 +61,8 @@ public class MainTab extends Fragment{
     private boolean accRunning;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       // super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
         textViewRealWeight=rootView.findViewById(R.id.textView_realWeight);
@@ -184,9 +185,9 @@ public class MainTab extends Fragment{
         else
         {
             textViewRealAngle.setText("90°~");
-            textViewRealWeight.setText("27KG 이상!! 거북이네...");
+            textViewRealWeight.setText("27KG 이상!");
         }
-       // tv_pitch.setText("pitch : "+pitch);
+
     }
 
     public class UserSensorListner implements SensorEventListener{
@@ -231,4 +232,3 @@ public class MainTab extends Fragment{
         public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     }
 }
-
