@@ -16,7 +16,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.memes.MainActivity" />
         </activity>
-        <activity android:name="com.example.memes.InformationActivity" />
+        <activity
+            android:name="com.example.memes.InformationActivity"
+            android:label="@string/info_name">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.memes.MainActivity"/>
+        </activity>
         <activity
             android:name="com.example.memes.MainActivity"
             android:label="@string/title_activity_main"
