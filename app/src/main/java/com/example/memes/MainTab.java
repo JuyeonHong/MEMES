@@ -13,6 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.util.Log;
+import android.widget.Button;
+
 
 
 
@@ -29,6 +37,11 @@ public class MainTab extends Fragment{
     private Sensor mGyroscopeSensor = null;
     private Sensor mAccelerometer = null;
 
+    //Using the Gyroscope
+
+    private SensorEventListener mGyroLis;  //3. 센서 리스너 생성
+    //private Sensor mGgyroSensor = null;
+
     /*Sensor variables*/
     private float[] mGyroValues = new float[3];
     private float[] mAccValues = new float[3];
@@ -37,18 +50,19 @@ public class MainTab extends Fragment{
     /*for unsing complementary fliter*/
     private float a = 0.2f;
     private static final float NS2S = 1.0f/1000000000.0f;
+
     private double pitch = 0, roll = 0;
     private double timestamp;
     private double dt;
     private double temp;
-    //private boolean running;
+
+    private boolean running;
     private boolean gyroRunning;
     private boolean accRunning;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
         textViewRealWeight=rootView.findViewById(R.id.textView_realWeight);
@@ -61,6 +75,19 @@ public class MainTab extends Fragment{
         mSensorManager.registerListener(userSensorListner, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
         mSensorManager.registerListener(userSensorListner, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
 
+
+        //Using the Gyroscope & Accelometer
+        //1. 센서 매니저 생성 -> getSystemSerVice를 이용
+        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+
+        //Using the Accelometer
+        //2. 센서 객체 생성 -> getDefaultSensor(Sensor.원하는센서)
+        mGyroscopeSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        //3. 센서 리스너 생성
+        userSensorListner = new UserSensorListner();
+        //mGyroLis = new GyroscopeListener();
 
         infoImgBtn = rootView.findViewById(R.id.imageButton_info);
         infoImgBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,13 +106,26 @@ public class MainTab extends Fragment{
                 startActivity(intent);
             }
         });
-
-
-
         return rootView;
     }
-    /**
-     * 1차 상보필터 적용 메서드 */
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //4. 센서 리스너에 등록 -> 센서매니저.registerListener(센서리스너클래스,센서객체,리스너반응속도)
+        //반응속도 빠른 순서: SENSOR_DELAY_FASTEST,GAME,UI,NORMAL
+        mSensorManager.registerListener(userSensorListner, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(userSensorListner, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        //5. 센서 리스너 등록 해제
+        mSensorManager.unregisterListener(userSensorListner);
+    }
+
+     /* 1차 상보필터 적용 메서드 */
     private void complementaty(double new_ts){
 
         /* 자이로랑 가속 해제 */
@@ -114,6 +154,8 @@ public class MainTab extends Fragment{
 
         temp = (1/a) * (mAccRoll - roll) + mGyroValues[0];
         roll = roll + (temp*dt);
+
+        textViewRealAngle.setText(""+roll);
 
         if(roll>=75.0&&roll<=90.0)
         {
@@ -146,9 +188,6 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("27KG 이상!");
         }
 
-
-        // tv_pitch.setText("pitch : "+pitch);
-
     }
 
     public class UserSensorListner implements SensorEventListener{
@@ -159,6 +198,11 @@ public class MainTab extends Fragment{
 
                 /** GYROSCOPE */
                 case Sensor.TYPE_GYROSCOPE:
+
+                    /*센서 값을 mGyroValues에 저장*/
+                    mGyroValues = event.values;
+                    if(!gyroRunning)
+                        gyroRunning = true;
 
                     /*센서 값을 mGyroValues에 저장*/
                     mGyroValues = event.values;
@@ -173,12 +217,9 @@ public class MainTab extends Fragment{
 
                     /*센서 값을 mAccValues에 저장*/
                     mAccValues = event.values;
-
                     if(!accRunning)
                         accRunning = true;
-
                     break;
-
             }
 
             /**두 센서 새로운 값을 받으면 상보필터 적용*/
@@ -187,7 +228,6 @@ public class MainTab extends Fragment{
             }
 
         }
-
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) { }
     }

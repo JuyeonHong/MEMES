@@ -5,10 +5,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="MEME"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:largeHeap="true"
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name="com.example.memes.SettingsActivity"
             android:label="@string/settings_name">
@@ -19,7 +21,6 @@
         <activity android:name="com.example.memes.InformationActivity" />
         <activity
             android:name="com.example.memes.MainActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
