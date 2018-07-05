@@ -12,17 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.util.Log;
-import android.widget.Button;
-
-
-
 
 public class MainTab extends Fragment{
 
@@ -30,24 +21,20 @@ public class MainTab extends Fragment{
     private TextView textViewRealWeight;
     private ImageButton infoImgBtn;
     private ImageButton settingsImgBtn;
+    private ImageView rotateImg;
 
     /*Used for Accelometer & Gyroscoper*/
     private SensorManager mSensorManager = null;
-    private UserSensorListner userSensorListner;
+    private UserSensorListener userSensorListener;
     private Sensor mGyroscopeSensor = null;
     private Sensor mAccelerometer = null;
-
-    //Using the Gyroscope
-
-    private SensorEventListener mGyroLis;  //3. 센서 리스너 생성
-    //private Sensor mGgyroSensor = null;
 
     /*Sensor variables*/
     private float[] mGyroValues = new float[3];
     private float[] mAccValues = new float[3];
     private double mAccPitch, mAccRoll;
 
-    /*for unsing complementary fliter*/
+    /*for using complementary filter*/
     private float a = 0.2f;
     private static final float NS2S = 1.0f/1000000000.0f;
 
@@ -56,7 +43,6 @@ public class MainTab extends Fragment{
     private double dt;
     private double temp;
 
-    private boolean running;
     private boolean gyroRunning;
     private boolean accRunning;
 
@@ -68,16 +54,16 @@ public class MainTab extends Fragment{
         textViewRealWeight=rootView.findViewById(R.id.textView_realWeight);
 
         mSensorManager = (SensorManager)getActivity().getSystemService(Context.SENSOR_SERVICE);
-        userSensorListner = new UserSensorListner();
+        userSensorListener = new UserSensorListener();
         mGyroscopeSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mAccelerometer= mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        mSensorManager.registerListener(userSensorListner, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(userSensorListner, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(userSensorListener, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(userSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
 
 
         //Using the Gyroscope & Accelometer
-        //1. 센서 매니저 생성 -> getSystemSerVice를 이용
+        //1. 센서 매니저 생성 -> getSystemService를 이용
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
 
         //Using the Accelometer
@@ -86,7 +72,7 @@ public class MainTab extends Fragment{
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         //3. 센서 리스너 생성
-        userSensorListner = new UserSensorListner();
+        userSensorListener = new UserSensorListener();
         //mGyroLis = new GyroscopeListener();
 
         infoImgBtn = rootView.findViewById(R.id.imageButton_info);
@@ -106,6 +92,9 @@ public class MainTab extends Fragment{
                 startActivity(intent);
             }
         });
+
+        rotateImg = rootView.findViewById(R.id.imageView02);
+
         return rootView;
     }
 
@@ -114,15 +103,15 @@ public class MainTab extends Fragment{
         super.onResume();
         //4. 센서 리스너에 등록 -> 센서매니저.registerListener(센서리스너클래스,센서객체,리스너반응속도)
         //반응속도 빠른 순서: SENSOR_DELAY_FASTEST,GAME,UI,NORMAL
-        mSensorManager.registerListener(userSensorListner, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(userSensorListner, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(userSensorListener, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(userSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
     public void onPause(){
         super.onPause();
         //5. 센서 리스너 등록 해제
-        mSensorManager.unregisterListener(userSensorListner);
+        mSensorManager.unregisterListener(userSensorListener);
     }
 
      /* 1차 상보필터 적용 메서드 */
@@ -161,36 +150,48 @@ public class MainTab extends Fragment{
         {
             textViewRealAngle.setText("0°~15°");
             textViewRealWeight.setText("4.5KG");
+            rotateImg.setImageResource(R.drawable.zero15);
         }
         else if(roll>=60.0&&roll<75.0)
         {
             textViewRealAngle.setText("15°~30°");
             textViewRealWeight.setText("12KG");
+            rotateImg.setImageResource(R.drawable.fifteen30);
         }
         else if(roll>=45.0&&roll<60.0)
         {
             textViewRealAngle.setText("30°~45°");
             textViewRealWeight.setText("18KG");
+            rotateImg.setImageResource(R.drawable.thirty45);
         }
         else if(roll>=30.0&&roll<45.0)
         {
             textViewRealAngle.setText("45°~60°");
             textViewRealWeight.setText("22KG");
+            rotateImg.setImageResource(R.drawable.fortyfive60);
+        }
+        else if(roll>=0.0&&roll<30.0)
+        {
+            textViewRealAngle.setText("60°~90°");
+            textViewRealWeight.setText("26KG");
+            rotateImg.setImageResource(R.drawable.sixty90);
         }
         else if(roll>90.0)
         {
             textViewRealAngle.setText("~0°");
             textViewRealWeight.setText("누워계신가요?");
+            rotateImg.setImageResource(R.drawable.zero15);
         }
         else
         {
             textViewRealAngle.setText("90°~");
             textViewRealWeight.setText("27KG 이상!");
+            rotateImg.setImageResource(R.drawable.ninetyover);
         }
 
     }
 
-    public class UserSensorListner implements SensorEventListener{
+    public class UserSensorListener implements SensorEventListener{
 
         @Override
         public void onSensorChanged(SensorEvent event) {
@@ -226,7 +227,6 @@ public class MainTab extends Fragment{
             if(gyroRunning && accRunning){
                 complementaty(event.timestamp);
             }
-
         }
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) { }
