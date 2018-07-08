@@ -2,10 +2,13 @@ package com.example.memes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainTab extends Fragment{
 
@@ -46,10 +50,16 @@ public class MainTab extends Fragment{
     private boolean gyroRunning;
     private boolean accRunning;
 
+    private SharedPreferences mPref;
+    private Toast mToast;
+    //private int cnt;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
         textViewRealWeight=rootView.findViewById(R.id.textView_realWeight);
 
@@ -94,7 +104,8 @@ public class MainTab extends Fragment{
         });
 
         rotateImg = rootView.findViewById(R.id.imageView02);
-
+        getPreferencesData();
+        mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
         return rootView;
     }
 
@@ -105,6 +116,7 @@ public class MainTab extends Fragment{
         //반응속도 빠른 순서: SENSOR_DELAY_FASTEST,GAME,UI,NORMAL
         mSensorManager.registerListener(userSensorListener, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
         mSensorManager.registerListener(userSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+        getPreferencesData();
     }
 
     @Override
@@ -146,6 +158,9 @@ public class MainTab extends Fragment{
 
         textViewRealAngle.setText(""+roll);
 
+        int index = getPreferencesData();
+        int cnt=0;
+
         if(roll>=75.0&&roll<=90.0)
         {
             textViewRealAngle.setText("0°~15°");
@@ -175,6 +190,26 @@ public class MainTab extends Fragment{
             textViewRealAngle.setText("60°~90°");
             textViewRealWeight.setText("26KG");
             rotateImg.setImageResource(R.drawable.sixty90);
+            if(index==0){
+                cnt+=1;
+                if(cnt<=1){
+                    mToast.setText("거북목입니다!");
+                    mToast.show();
+                }
+                else{
+                    mToast.cancel();
+                }
+            }
+            else if(index==1){
+                cnt+=1;
+                Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                if(cnt<=1) {
+                    vibrator.vibrate(500); //
+                }
+                else{
+                    vibrator.cancel();
+                }
+            }
         }
         else if(roll>90.0)
         {
@@ -187,8 +222,32 @@ public class MainTab extends Fragment{
             textViewRealAngle.setText("90°~");
             textViewRealWeight.setText("27KG 이상!");
             rotateImg.setImageResource(R.drawable.ninetyover);
+            if(index==0){
+                cnt+=1;
+                if(cnt<=1){
+                    mToast.setText("거북목입니다!");
+                    mToast.show();
+                }
+                else{
+                    mToast.cancel();
+                }
+            }
         }
+    }
 
+    private int getPreferencesData() {
+        String[] array = getResources().getStringArray(R.array.alarmMethodArray);
+        int index = getArrayIndex(R.array.alarmMethodArray_values,mPref.getString("alarmMethodList","popup"));
+        return index;
+    }
+
+    private int getArrayIndex(int array, String findIndex) {
+        String[] arrayString = getResources().getStringArray(array);
+        for (int e = 0; e < arrayString.length; e++) {
+            if (arrayString[e].equals(findIndex))
+                return e;
+        }
+        return -1;
     }
 
     public class UserSensorListener implements SensorEventListener{
