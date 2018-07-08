@@ -6,27 +6,26 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="MEME"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:largeHeap="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.memes.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/settings_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.memes.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.memes.InformationActivity"
+            android:name=".InformationActivity"
             android:label="@string/info_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.memes.MainActivity"/>
+                android:value="com.example.memes.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.memes.MainActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +33,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".NewAppWidget"
+            android:label="목각도 위젯">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_app_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

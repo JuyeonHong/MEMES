@@ -161,6 +161,7 @@ public class MainTab extends Fragment{
         {
             textViewRealAngle.setText("0°~15°");
             textViewRealWeight.setText("4.5KG");
+
         }
         else if(roll>=60.0&&roll<75.0)
         {

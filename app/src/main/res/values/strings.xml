@@ -21,4 +21,6 @@
     <string name="turtle_self_diagnosis_content">거북목 진행상태를 파악하기 위해 간단하고도 흔히 이용되는 방법을 적용하였다. 피실험자를 차렷 자세로 세운 후 귀의 중간에서부터 아래로 수직의 가상의 선을 그린다. 이때 어깨 중간 선이 수직 선상에 있으면 정상적인 상태이다. 그러나, 그 선이 어깨 중간선 보다 앞으로 2.5cm 정도 나와 있으면 거북목이 진행되고 있는 상태이며, 5cm 이상 나와 있으면 이미 거북목이 심각한 상태라 할 수 있다. </string>
     <string name="turtle_prevention">예방</string>
     <string name="turtle_prevention_content">앉아있을 때 옆에서 본 자세가 귀와 어깨 골반부가 일직선이 되도록 하는 것이 좋으며 장시간 앉아 있은 후에는 일정 시간 기지개를 펴듯이 몸과 목을 뒤로 젖혀 스트레칭을 하는 습관을 들이는 것이 좋다.</string>
+    <string name="appwidget_text">ANGLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
