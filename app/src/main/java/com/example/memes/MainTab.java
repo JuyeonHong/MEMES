@@ -22,6 +22,7 @@ public class MainTab extends Fragment{
     private ImageButton infoImgBtn;
     private ImageButton settingsImgBtn;
     private ImageView rotateImg;
+    private ImageView circleImg;
 
     /*Used for Accelometer & Gyroscoper*/
     private SensorManager mSensorManager = null;
@@ -93,6 +94,7 @@ public class MainTab extends Fragment{
             }
         });
 
+        circleImg = rootView.findViewById(R.id.imageView01);
         rotateImg = rootView.findViewById(R.id.imageView02);
 
         return rootView;
@@ -151,44 +153,50 @@ public class MainTab extends Fragment{
             textViewRealAngle.setText("0°~15°");
             textViewRealWeight.setText("4.5KG");
             rotateImg.setImageResource(R.drawable.zero15);
+            circleImg.setImageResource(R.drawable.back015);
         }
         else if(roll>=60.0&&roll<75.0)
         {
             textViewRealAngle.setText("15°~30°");
             textViewRealWeight.setText("12KG");
             rotateImg.setImageResource(R.drawable.fifteen30);
+            circleImg.setImageResource(R.drawable.back1530);
         }
         else if(roll>=45.0&&roll<60.0)
         {
             textViewRealAngle.setText("30°~45°");
             textViewRealWeight.setText("18KG");
             rotateImg.setImageResource(R.drawable.thirty45);
+            circleImg.setImageResource(R.drawable.back3045);
         }
         else if(roll>=30.0&&roll<45.0)
         {
             textViewRealAngle.setText("45°~60°");
             textViewRealWeight.setText("22KG");
             rotateImg.setImageResource(R.drawable.fortyfive60);
+            circleImg.setImageResource(R.drawable.back4560);
         }
         else if(roll>=0.0&&roll<30.0)
         {
             textViewRealAngle.setText("60°~90°");
             textViewRealWeight.setText("26KG");
             rotateImg.setImageResource(R.drawable.sixty90);
+            circleImg.setImageResource(R.drawable.back6090);
         }
         else if(roll>90.0)
         {
             textViewRealAngle.setText("~0°");
             textViewRealWeight.setText("누워계신가요?");
             rotateImg.setImageResource(R.drawable.zero15);
+            circleImg.setImageResource(R.drawable.back0under);
         }
         else
         {
             textViewRealAngle.setText("90°~");
             textViewRealWeight.setText("27KG 이상!");
             rotateImg.setImageResource(R.drawable.ninetyover);
+            circleImg.setImageResource(R.drawable.back90over);
         }
-
     }
 
     public class UserSensorListener implements SensorEventListener{
