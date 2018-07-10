@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -126,7 +127,7 @@ public class MainTab extends Fragment{
         mSensorManager.unregisterListener(userSensorListener);
     }
 
-     /* 1차 상보필터 적용 메서드 */
+    /* 1차 상보필터 적용 메서드 */
     private void complementaty(double new_ts){
 
         /* 자이로랑 가속 해제 */
@@ -185,8 +186,7 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("22KG");
             rotateImg.setImageResource(R.drawable.fortyfive60);
         }
-        else if(roll>=0.0&&roll<30.0)
-        {
+        else if(roll>=0.0&&roll<30.0) {
             textViewRealAngle.setText("60°~90°");
             textViewRealWeight.setText("26KG");
             rotateImg.setImageResource(R.drawable.sixty90);
@@ -204,9 +204,30 @@ public class MainTab extends Fragment{
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if(cnt<=1) {
-                    vibrator.vibrate(500); //
+                    new Thread(new Runnable() {
+                        public void run() {
+                            ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
+                        }
+                    }).start();
                 }
                 else{
+                    vibrator.cancel();
+                }
+            }
+            else if(index==2){
+                cnt+=1;
+                Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                if(cnt<=1){
+                    mToast.setText("거북목입니다!");
+                    mToast.show();
+                    new Thread(new Runnable() {
+                        public void run() {
+                            ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
+                        }
+                    }).start();
+                }
+                else{
+                    mToast.cancel();
                     vibrator.cancel();
                 }
             }
@@ -230,6 +251,37 @@ public class MainTab extends Fragment{
                 }
                 else{
                     mToast.cancel();
+                }
+            }
+            else if(index==1){
+                cnt+=1;
+                Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                if(cnt<=1) {
+                    new Thread(new Runnable() {
+                        public void run() {
+                            ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
+                        }
+                    }).start();
+                }
+                else{
+                    vibrator.cancel();
+                }
+            }
+            else if(index==2){
+                cnt+=1;
+                Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                if(cnt<=1){
+                    mToast.setText("거북목입니다!");
+                    mToast.show();
+                    new Thread(new Runnable() {
+                        public void run() {
+                            ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
+                        }
+                    }).start();
+                }
+                else{
+                    mToast.cancel();
+                    vibrator.cancel();
                 }
             }
         }
