@@ -27,6 +27,7 @@ public class MainTab extends Fragment{
     private ImageButton infoImgBtn;
     private ImageButton settingsImgBtn;
     private ImageView rotateImg;
+    private ImageView circleImg;
 
     /*Used for Accelometer & Gyroscoper*/
     private SensorManager mSensorManager = null;
@@ -104,6 +105,7 @@ public class MainTab extends Fragment{
             }
         });
 
+        circleImg = rootView.findViewById(R.id.imageView01);
         rotateImg = rootView.findViewById(R.id.imageView02);
         get_alarmMethodList_PreferencesData();
         get_popupLocationList_PreferencesData();
@@ -171,30 +173,37 @@ public class MainTab extends Fragment{
             textViewRealAngle.setText("0°~15°");
             textViewRealWeight.setText("4.5KG");
             rotateImg.setImageResource(R.drawable.zero15);
+            circleImg.setImageResource(R.drawable.back015);
         }
         else if(roll>=60.0&&roll<75.0)
         {
             textViewRealAngle.setText("15°~30°");
             textViewRealWeight.setText("12KG");
             rotateImg.setImageResource(R.drawable.fifteen30);
+            circleImg.setImageResource(R.drawable.back1530);
         }
         else if(roll>=45.0&&roll<60.0)
         {
             textViewRealAngle.setText("30°~45°");
             textViewRealWeight.setText("18KG");
             rotateImg.setImageResource(R.drawable.thirty45);
+            circleImg.setImageResource(R.drawable.back3045);
         }
         else if(roll>=30.0&&roll<45.0)
         {
             textViewRealAngle.setText("45°~60°");
             textViewRealWeight.setText("22KG");
             rotateImg.setImageResource(R.drawable.fortyfive60);
+            circleImg.setImageResource(R.drawable.back4560);
         }
-        else if(roll>=0.0&&roll<30.0) {
+        else if(roll>=0.0&&roll<30.0)
+        {
             textViewRealAngle.setText("60°~90°");
             textViewRealWeight.setText("26KG");
             rotateImg.setImageResource(R.drawable.sixty90);
-            if(alarmMethod_index==0){//알림 방법:팝업(무음)
+            circleImg.setImageResource(R.drawable.back6090);
+            if(alarmMethod_index==0)//알림 방법:팝업(무음)
+            {
                 cnt+=1;
                 if(cnt<=1){
                     if(popupMethod_index==0){//팝업 위치: 상단
@@ -213,7 +222,8 @@ public class MainTab extends Fragment{
                     mToast.cancel();
                 }
             }
-            else if(alarmMethod_index==1){//알림 방법: 진동
+            else if(alarmMethod_index==1)//알림 방법: 진동
+            {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if(cnt<=1) {
@@ -227,7 +237,8 @@ public class MainTab extends Fragment{
                     vibrator.cancel();
                 }
             }
-            else if(alarmMethod_index==2){//알림 방법: 팝업과 진동
+            else if(alarmMethod_index==2)//알림 방법: 팝업과 진동
+            {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if(cnt<=1){
@@ -259,13 +270,16 @@ public class MainTab extends Fragment{
             textViewRealAngle.setText("~0°");
             textViewRealWeight.setText("누워계신가요?");
             rotateImg.setImageResource(R.drawable.zero15);
+            circleImg.setImageResource(R.drawable.back0under);
         }
         else
         {
             textViewRealAngle.setText("90°~");
             textViewRealWeight.setText("27KG 이상!");
             rotateImg.setImageResource(R.drawable.ninetyover);
-            if(alarmMethod_index==0){//알림 방법:팝업(무음)
+            circleImg.setImageResource(R.drawable.back90over);
+            if(alarmMethod_index==0)//알림 방법:팝업(무음)
+            {
                 cnt+=1;
                 if(cnt<=1){
                     if(popupMethod_index==0){//팝업 위치: 상단
@@ -280,35 +294,44 @@ public class MainTab extends Fragment{
                     mToast.setText("거북목입니다!");
                     mToast.show();
                 }
-                else{
+                else
+                {
                     mToast.cancel();
                 }
             }
-            else if(alarmMethod_index==1){//알림 방법: 진동
+            else if(alarmMethod_index==1)//알림 방법: 진동
+            {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                if(cnt<=1) {
+                if(cnt<=1)
+                {
                     new Thread(new Runnable() {
                         public void run() {
                             ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
                         }
                     }).start();
                 }
-                else{
+                else
+                {
                     vibrator.cancel();
                 }
             }
-            else if(alarmMethod_index==2){//알림 방법: 팝업과 진동
+            else if(alarmMethod_index==2)//알림 방법: 팝업과 진동
+            {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-                if(cnt<=1){
-                    if(popupMethod_index==0){//팝업 위치: 상단
+                if(cnt<=1)
+                {
+                    if(popupMethod_index==0)//팝업 위치: 상단
+                    {
                         mToast.setGravity(Gravity.TOP,0,0);
                     }
-                    else if(popupMethod_index==1){//팝업 위치: 중단
+                    else if(popupMethod_index==1)//팝업 위치: 중단
+                    {
                         mToast.setGravity(Gravity.CENTER_VERTICAL,0,0);
                     }
-                    else if(popupMethod_index==2){//팝업 위치: 하단
+                    else if(popupMethod_index==2)//팝업 위치: 하단
+                    {
                         mToast.setGravity(Gravity.BOTTOM,0,0);
                     }
                     mToast.setText("거북목입니다!");
@@ -319,7 +342,8 @@ public class MainTab extends Fragment{
                         }
                     }).start();
                 }
-                else{
+                else
+                {
                     mToast.cancel();
                     vibrator.cancel();
                 }
@@ -346,10 +370,9 @@ public class MainTab extends Fragment{
                 return e;
         }
         return -1;
-    }
+        }
 
     public class UserSensorListener implements SensorEventListener{
-
         @Override
         public void onSensorChanged(SensorEvent event) {
             switch (event.sensor.getType()){
