@@ -8,5 +8,12 @@
     <color name="sttext">#000000</color>
     <color name="stlabel">#a1a1a1</color>
     <color name="toolbar">#5CB86E</color>
+    <color name="colorUnder0">#ffffff</color>
+    <color name="color015">#66aa00</color>
+    <color name="color1530">#ffaa00</color>
+    <color name="color3045">#ff8700</color>
+    <color name="color4560">#ff6600</color>
+    <color name="color6090">#ff4500</color>
+    <color name="colorOver90">#ff0000</color>
 </resources>
 
