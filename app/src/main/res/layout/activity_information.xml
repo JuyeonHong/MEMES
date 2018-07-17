@@ -27,7 +27,7 @@
             android:layout_height="200dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/normal_and_turtle"/>
+            android:src="@drawable/normal_turtle"/>
 
         <TextView
             android:id="@+id/textView_def_content"
@@ -116,7 +116,7 @@
             android:layout_height="200dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/turtle_drive"/>
+            android:src="@drawable/turtle_driver"/>
 
         <TextView
             android:id="@+id/textView_self_diagnosis"
