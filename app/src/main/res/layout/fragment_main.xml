@@ -89,7 +89,9 @@
             android:id="@+id/toggleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ON/OFF" />
+            android:text="ON/OFF"
+            android:textOff="종료"
+            android:textOn="시작"/>
     </LinearLayout>
 
     <LinearLayout

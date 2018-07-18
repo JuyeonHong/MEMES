@@ -1,16 +1,22 @@
 package com.example.memes;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +25,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+import android.widget.Button;
 
-public class MainTab extends Fragment{
+
+
+public class MainTab extends Fragment {
+
 
     private TextView textViewRealAngle;
     private TextView textViewRealWeight;
@@ -73,7 +84,6 @@ public class MainTab extends Fragment{
         mSensorManager.registerListener(userSensorListener, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
         mSensorManager.registerListener(userSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
 
-
         //Using the Gyroscope & Accelometer
         //1. 센서 매니저 생성 -> getSystemService를 이용
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -111,8 +121,11 @@ public class MainTab extends Fragment{
         get_popupLocationList_PreferencesData();
         mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
 
+
         return rootView;
     }
+
+
 
     @Override
     public void onResume(){
@@ -410,5 +423,31 @@ public class MainTab extends Fragment{
         }
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) { }
+    }
+
+
+    public class Toggle_Activity extends AppCompatActivity {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.fragment_main);
+            final ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
+            tb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (tb.isChecked()) {
+                        Intent intent = new Intent(Toggle_Activity.this, MyService.class);
+                        StopService(intent);
+
+                    } else {
+                        Intent intent = new Intent(Toggle_Activity.this, MyService.class);
+                        StartService(intent);
+                    }
+                }}
+
+            );
+        }
+        }
+
     }
 }
