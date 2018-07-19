@@ -25,7 +25,7 @@
         </ListPreference>
 
         <ListPreference
-            android:defaultValue="5"
+            android:defaultValue="10"
             android:key="alarmPeriodList"
             android:title="알림 주기"
             android:entries="@array/alarmPeriodArray"
