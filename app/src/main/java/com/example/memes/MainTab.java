@@ -60,6 +60,7 @@ public class MainTab extends Fragment{
     private boolean gyroRunning;
     private boolean accRunning;
 
+    private static String mTosatMsg = "거북목입니다.";
     private SharedPreferences mPref;
     private Toast mToast;
     //private int cnt;
@@ -223,17 +224,7 @@ public class MainTab extends Fragment{
             {
                 cnt+=1;
                 if(cnt<=1){
-                    if(popupMethod_index==0){//팝업 위치: 상단
-                        mToast.setGravity(Gravity.TOP,0,0);
-                    }
-                    else if(popupMethod_index==1){//팝업 위치: 중단
-                        mToast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                    }
-                    else if(popupMethod_index==2){//팝업 위치: 하단
-                        mToast.setGravity(Gravity.BOTTOM,0,0);
-                    }
-                    mToast.setText("거북목입니다!");
-                    mToast.show();
+                    showToast(popupMethod_index);
                 }
                 else{
                     mToast.cancel();
@@ -259,17 +250,7 @@ public class MainTab extends Fragment{
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if(cnt<=1){
-                    if(popupMethod_index==0){//팝업 위치: 상단
-                        mToast.setGravity(Gravity.TOP,0,0);
-                    }
-                    else if(popupMethod_index==1){//팝업 위치: 중단
-                        mToast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                    }
-                    else if(popupMethod_index==2){//팝업 위치: 하단
-                        mToast.setGravity(Gravity.BOTTOM,0,0);
-                    }
-                    mToast.setText("거북목입니다!");
-                    mToast.show();
+                    showToast(popupMethod_index);
                     new Thread(new Runnable() {
                         public void run() {
                             ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
@@ -299,17 +280,7 @@ public class MainTab extends Fragment{
             {
                 cnt+=1;
                 if(cnt<=1){
-                    if(popupMethod_index==0){//팝업 위치: 상단
-                        mToast.setGravity(Gravity.TOP,0,0);
-                    }
-                    else if(popupMethod_index==1){//팝업 위치: 중단
-                        mToast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                    }
-                    else if(popupMethod_index==2){//팝업 위치: 하단
-                        mToast.setGravity(Gravity.BOTTOM,0,0);
-                    }
-                    mToast.setText("거북목입니다!");
-                    mToast.show();
+                    showToast(popupMethod_index);
                 }
                 else
                 {
@@ -339,20 +310,8 @@ public class MainTab extends Fragment{
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if(cnt<=1)
                 {
-                    if(popupMethod_index==0)//팝업 위치: 상단
-                    {
-                        mToast.setGravity(Gravity.TOP,0,0);
-                    }
-                    else if(popupMethod_index==1)//팝업 위치: 중단
-                    {
-                        mToast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                    }
-                    else if(popupMethod_index==2)//팝업 위치: 하단
-                    {
-                        mToast.setGravity(Gravity.BOTTOM,0,0);
-                    }
-                    mToast.setText("거북목입니다!");
-                    mToast.show();
+                    showToast(popupMethod_index);
+
                     new Thread(new Runnable() {
                         public void run() {
                             ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
@@ -406,6 +365,19 @@ public class MainTab extends Fragment{
             }
         }
     };
+
+    private void showToast(int popupMethod_index) {
+        switch (popupMethod_index) {
+            case 0: //팝업 위치: 상단
+                mToast.setGravity(Gravity.TOP, 0, 0);
+            case 1: //팝업 위치: 중단
+                mToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+            case 2: //팝업 위치: 하단
+                mToast.setGravity(Gravity.BOTTOM, 0, 0);
+        }
+        mToast.setText(mTosatMsg);
+        mToast.show();
+    }
 
     public class UserSensorListener implements SensorEventListener{
         @Override
