@@ -60,12 +60,23 @@ public class MainTab extends Fragment{
     private boolean gyroRunning;
     private boolean accRunning;
 
-    private static String mTosatMsg = "거북목입니다.";
+    private static String TOAST_MESSAGE = "거북목입니다.";
     private SharedPreferences mPref;
     private Toast mToast;
-    //private int cnt;
-    private int count;
 
+    private static long SECOND = 1000;
+    private static long MINUTE = 60000;
+    private static long HOUR = 3600000;
+    private static long[] PERIOD_TIME =
+            {10 * SECOND, 20 * SECOND, 30 * SECOND, 40 * SECOND, 50 * SECOND, 60 * SECOND};
+
+    private int count = 0;
+    private int mAlarmMethodIndex = 0;
+    private int mPopupMethodIndex = 0;
+    private static int[] TOAST_POSITION =
+            {Gravity.TOP, Gravity.CENTER_VERTICAL, Gravity.BOTTOM};
+    private int mAlarmPeriodIndex = 0;
+    private long mPreviousShowTime = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,9 +129,9 @@ public class MainTab extends Fragment{
         circleImg = rootView.findViewById(R.id.imageView01);
         rotateImg = rootView.findViewById(R.id.imageView02);
 
-        get_alarmMethodList_PreferencesData();
-        get_popupLocationList_PreferencesData();
-        get_alarmPeriodList_PreferencesData();
+        getAlarmMethodListPreferencesData();
+        getPopupLocationListPreferencesData();
+        getAlarmPeriodListPreferencesData();
         mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
 
         if (!AlarmBroadCastReceiver.isLaunched) {
@@ -136,9 +147,9 @@ public class MainTab extends Fragment{
         //반응속도 빠른 순서: SENSOR_DELAY_FASTEST,GAME,UI,NORMAL
         mSensorManager.registerListener(userSensorListener, mGyroscopeSensor, SensorManager.SENSOR_DELAY_UI);
         mSensorManager.registerListener(userSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
-        get_alarmMethodList_PreferencesData();
-        get_popupLocationList_PreferencesData();
-        get_alarmPeriodList_PreferencesData();
+        getAlarmMethodListPreferencesData();
+        getPopupLocationListPreferencesData();
+        getAlarmPeriodListPreferencesData();
         getActivity().registerReceiver(mTimeReceiver,new IntentFilter(Constants.INTENTFILTER_BROADCAST_TIMER));
     }
 
@@ -182,8 +193,9 @@ public class MainTab extends Fragment{
 
         textViewRealAngle.setText(""+roll);
 
-        int alarmMethod_index = get_alarmMethodList_PreferencesData();
-        int popupMethod_index = get_popupLocationList_PreferencesData();
+        getAlarmMethodListPreferencesData();
+        getPopupLocationListPreferencesData();
+        getAlarmPeriodListPreferencesData();
         int cnt=0;
 
         if(roll>=75.0&&roll<=90.0)
@@ -220,17 +232,17 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("26KG");
             rotateImg.setImageResource(R.drawable.sixty90);
             circleImg.setImageResource(R.drawable.back6090);
-            if(alarmMethod_index==0)//알림 방법:팝업(무음)
+            if(mAlarmMethodIndex==0)//알림 방법:팝업(무음)
             {
                 cnt+=1;
                 if(cnt<=1){
-                    showToast(popupMethod_index);
+                    showToast();
                 }
                 else{
                     mToast.cancel();
                 }
             }
-            else if(alarmMethod_index==1)//알림 방법: 진동
+            else if(mAlarmMethodIndex==1)//알림 방법: 진동
             {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
@@ -245,12 +257,12 @@ public class MainTab extends Fragment{
                     vibrator.cancel();
                 }
             }
-            else if(alarmMethod_index==2)//알림 방법: 팝업과 진동
+            else if(mAlarmMethodIndex==2)//알림 방법: 팝업과 진동
             {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if(cnt<=1){
-                    showToast(popupMethod_index);
+                    showToast();
                     new Thread(new Runnable() {
                         public void run() {
                             ((Vibrator)getActivity().getSystemService(Context.VIBRATOR_SERVICE)).vibrate(500); //
@@ -276,18 +288,18 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("27KG 이상!");
             rotateImg.setImageResource(R.drawable.ninetyover);
             circleImg.setImageResource(R.drawable.back90over);
-            if(alarmMethod_index==0)//알림 방법:팝업(무음)
+            if(mAlarmMethodIndex==0)//알림 방법:팝업(무음)
             {
                 cnt+=1;
                 if(cnt<=1){
-                    showToast(popupMethod_index);
+                    showToast();
                 }
                 else
                 {
                     mToast.cancel();
                 }
             }
-            else if(alarmMethod_index==1)//알림 방법: 진동
+            else if(mAlarmMethodIndex==1)//알림 방법: 진동
             {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
@@ -304,13 +316,13 @@ public class MainTab extends Fragment{
                     vibrator.cancel();
                 }
             }
-            else if(alarmMethod_index==2)//알림 방법: 팝업과 진동
+            else if(mAlarmMethodIndex==2)//알림 방법: 팝업과 진동
             {
                 cnt+=1;
                 Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                 if(cnt<=1)
                 {
-                    showToast(popupMethod_index);
+                    showToast();
 
                     new Thread(new Runnable() {
                         public void run() {
@@ -327,22 +339,16 @@ public class MainTab extends Fragment{
         }
     }
 
-    private int get_alarmMethodList_PreferencesData() {
-        String[] array = getResources().getStringArray(R.array.alarmMethodArray);
-        int index = getArrayIndex(R.array.alarmMethodArray_values,mPref.getString("alarmMethodList","popup"));
-        return index;
+    private void getAlarmMethodListPreferencesData() {
+        mAlarmMethodIndex = getArrayIndex(R.array.alarmMethodArray_values,mPref.getString("alarmMethodList","popup"));
     }
 
-    private int get_popupLocationList_PreferencesData() {
-        String[] array = getResources().getStringArray(R.array.alarmMethodArray);
-        int index = getArrayIndex(R.array.popupLocationArray_values,mPref.getString("popupLocationList","top"));
-        return index;
+    private void getPopupLocationListPreferencesData() {
+        mPopupMethodIndex = getArrayIndex(R.array.popupLocationArray_values,mPref.getString("popupLocationList","top"));
     }
 
-    public int get_alarmPeriodList_PreferencesData() {
-        String[] array = getResources().getStringArray(R.array.alarmPeriodArray);
-        int index = getArrayIndex(R.array.alarmPeriodArray_values,mPref.getString("alarmPeriodList","5"));
-        return index;
+    private void getAlarmPeriodListPreferencesData() {
+        mAlarmPeriodIndex = getArrayIndex(R.array.alarmPeriodArray_values,mPref.getString("alarmPeriodList","5"));
     }
 
     private int getArrayIndex(int array, String findIndex) {
@@ -366,17 +372,17 @@ public class MainTab extends Fragment{
         }
     };
 
-    private void showToast(int popupMethod_index) {
-        switch (popupMethod_index) {
-            case 0: //팝업 위치: 상단
-                mToast.setGravity(Gravity.TOP, 0, 0);
-            case 1: //팝업 위치: 중단
-                mToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            case 2: //팝업 위치: 하단
-                mToast.setGravity(Gravity.BOTTOM, 0, 0);
-        }
-        mToast.setText(mTosatMsg);
+    private void showToast() {
+
+        long diffTime = System.currentTimeMillis() - mPreviousShowTime;
+
+        if (diffTime < PERIOD_TIME[mAlarmPeriodIndex])
+            return;
+
+        mToast.setGravity(TOAST_POSITION[mPopupMethodIndex], 0, 0);
+        mToast.setText(TOAST_MESSAGE);
         mToast.show();
+        mPreviousShowTime = System.currentTimeMillis();
     }
 
     public class UserSensorListener implements SensorEventListener{
