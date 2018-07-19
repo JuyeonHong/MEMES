@@ -15,6 +15,6 @@ public class AlarmOneMinuteBroadcastReceiver extends AlarmBroadCastReceiver {
 
         // 알람 스타트
         AlarmUtils.getInstance().startOneMinuteAlarm(context);
-        Toast.makeText(context,"Passed one minute.",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"Passed one minute.",Toast.LENGTH_SHORT).show();
     }
 }

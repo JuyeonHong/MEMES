@@ -26,20 +26,20 @@
 
     <!-- 알림의 주기설정 -->
     <string-array name="alarmPeriodArray">
-        <item>5분</item>
-        <item>10분</item>
-        <item>15분</item>
-        <item>20분</item>
-        <item>25분</item>
-        <item>30분</item>
+        <item>10초</item>
+        <item>20초</item>
+        <item>30초</item>
+        <item>40초</item>
+        <item>50초</item>
+        <item>1분</item>
     </string-array>
     <string-array name="alarmPeriodArray_values">
-        <item>5</item>
         <item>10</item>
-        <item>15</item>
         <item>20</item>
-        <item>25</item>
         <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
     </string-array>
 
     <!-- 앱의 실행방법 설정 -->

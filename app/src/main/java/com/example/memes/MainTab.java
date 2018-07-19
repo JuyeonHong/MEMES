@@ -348,7 +348,7 @@ public class MainTab extends Fragment{
     }
 
     private void getAlarmPeriodListPreferencesData() {
-        mAlarmPeriodIndex = getArrayIndex(R.array.alarmPeriodArray_values,mPref.getString("alarmPeriodList","5"));
+        mAlarmPeriodIndex = getArrayIndex(R.array.alarmPeriodArray_values,mPref.getString("alarmPeriodList","10"));
     }
 
     private int getArrayIndex(int array, String findIndex) {
