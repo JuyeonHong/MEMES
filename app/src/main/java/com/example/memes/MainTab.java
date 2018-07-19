@@ -1,7 +1,9 @@
 package com.example.memes;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,6 +21,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.memes.alarmscheduler.AlarmUtils;
+import com.example.memes.alarmscheduler.Constants;
+import com.example.memes.alarmscheduler.receiver.AlarmBroadCastReceiver;
+
+import java.util.Date;
 
 public class MainTab extends Fragment{
 
@@ -55,6 +63,7 @@ public class MainTab extends Fragment{
     private SharedPreferences mPref;
     private Toast mToast;
     //private int cnt;
+    private int count;
 
 
     @Override
@@ -107,10 +116,15 @@ public class MainTab extends Fragment{
 
         circleImg = rootView.findViewById(R.id.imageView01);
         rotateImg = rootView.findViewById(R.id.imageView02);
+
         get_alarmMethodList_PreferencesData();
         get_popupLocationList_PreferencesData();
+        get_alarmPeriodList_PreferencesData();
         mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
 
+        if (!AlarmBroadCastReceiver.isLaunched) {
+            AlarmUtils.getInstance().startOneMinuteAlarm(getActivity().getApplicationContext());
+        }
         return rootView;
     }
 
@@ -123,6 +137,8 @@ public class MainTab extends Fragment{
         mSensorManager.registerListener(userSensorListener, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         get_alarmMethodList_PreferencesData();
         get_popupLocationList_PreferencesData();
+        get_alarmPeriodList_PreferencesData();
+        getActivity().registerReceiver(mTimeReceiver,new IntentFilter(Constants.INTENTFILTER_BROADCAST_TIMER));
     }
 
     @Override
@@ -130,6 +146,7 @@ public class MainTab extends Fragment{
         super.onPause();
         //5. 센서 리스너 등록 해제
         mSensorManager.unregisterListener(userSensorListener);
+        getActivity().unregisterReceiver(mTimeReceiver);
     }
 
     /* 1차 상보필터 적용 메서드 */
@@ -363,6 +380,12 @@ public class MainTab extends Fragment{
         return index;
     }
 
+    public int get_alarmPeriodList_PreferencesData() {
+        String[] array = getResources().getStringArray(R.array.alarmPeriodArray);
+        int index = getArrayIndex(R.array.alarmPeriodArray_values,mPref.getString("alarmPeriodList","5"));
+        return index;
+    }
+
     private int getArrayIndex(int array, String findIndex) {
         String[] arrayString = getResources().getStringArray(array);
         for (int e = 0; e < arrayString.length; e++) {
@@ -371,6 +394,18 @@ public class MainTab extends Fragment{
         }
         return -1;
         }
+
+    private BroadcastReceiver mTimeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            count++;
+            long time = intent.getLongExtra(Constants.KEY_DEFAULT,0);
+            if (time > 0) {
+                Date date = new Date(time);
+                //txt_timer.setText(date.toString()+"\n"+"call count : "+count);
+            }
+        }
+    };
 
     public class UserSensorListener implements SensorEventListener{
         @Override
