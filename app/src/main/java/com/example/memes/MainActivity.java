@@ -10,18 +10,22 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
+import android.content.ServiceConnection;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-
+import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-
+import android.content.ComponentName;
+import android.content.ServiceConnection;
+import android.widget.ToggleButton;
+import android.view.View.OnClickListener;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private MyService mService;
+    private boolean isBlind;
 
 
     @Override
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         /*title 없애기*/
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("");
@@ -123,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
+
+
         });
     }
 
