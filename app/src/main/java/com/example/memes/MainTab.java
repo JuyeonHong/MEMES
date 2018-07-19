@@ -28,6 +28,7 @@ public class MainTab extends Fragment{
     private ImageButton settingsImgBtn;
     private ImageView rotateImg;
     private ImageView circleImg;
+    private TextView countTest;
 
     /*Used for Accelometer & Gyroscoper*/
     private SensorManager mSensorManager = null;
@@ -56,6 +57,19 @@ public class MainTab extends Fragment{
     private Toast mToast;
     //private int cnt;
 
+    /*for calculating duration time*/
+    private static final int ZERO_FIFTEEN = 0;
+    private static final int FIFTEEN_THIRTY = 1;
+    private static final int THIRTY_FORTYFIVE = 2;
+    private static final int FORTYFIVE_SIXTY = 3;
+    private static final int SIXTY_NINETY = 4;
+    private static final int NINETY_OVER = 5;
+
+    long oldAngleTime, nowAngleTime;
+    int oldAngleRange, nowAngleRange;
+    long durationTime = 0L;
+    int count015 = 0, count1530 = 0, count3045 = 0, count4560 = 0, count6090 = 0, count90over = 0, allcount = 0;
+    private int howManyCalled = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,6 +125,8 @@ public class MainTab extends Fragment{
         get_popupLocationList_PreferencesData();
         mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
 
+        countTest = rootView.findViewById(R.id.textView_gotoTab2);
+
         return rootView;
     }
 
@@ -133,7 +149,7 @@ public class MainTab extends Fragment{
     }
 
     /* 1차 상보필터 적용 메서드 */
-    private void complementaty(double new_ts){
+    private void complementary(double new_ts){
 
         /* 자이로랑 가속 해제 */
         gyroRunning = false;
@@ -174,6 +190,7 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("4.5KG");
             rotateImg.setImageResource(R.drawable.zero15);
             circleImg.setImageResource(R.drawable.back015);
+            nowAngleRange = ZERO_FIFTEEN;
         }
         else if(roll>=60.0&&roll<75.0)
         {
@@ -181,6 +198,7 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("12KG");
             rotateImg.setImageResource(R.drawable.fifteen30);
             circleImg.setImageResource(R.drawable.back1530);
+            nowAngleRange = FIFTEEN_THIRTY;
         }
         else if(roll>=45.0&&roll<60.0)
         {
@@ -188,6 +206,7 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("18KG");
             rotateImg.setImageResource(R.drawable.thirty45);
             circleImg.setImageResource(R.drawable.back3045);
+            nowAngleRange = THIRTY_FORTYFIVE;
         }
         else if(roll>=30.0&&roll<45.0)
         {
@@ -195,6 +214,7 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("22KG");
             rotateImg.setImageResource(R.drawable.fortyfive60);
             circleImg.setImageResource(R.drawable.back4560);
+            nowAngleRange = FORTYFIVE_SIXTY;
         }
         else if(roll>=0.0&&roll<30.0)
         {
@@ -202,6 +222,7 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("26KG");
             rotateImg.setImageResource(R.drawable.sixty90);
             circleImg.setImageResource(R.drawable.back6090);
+            nowAngleRange = SIXTY_NINETY;
             if(alarmMethod_index==0)//알림 방법:팝업(무음)
             {
                 cnt+=1;
@@ -278,6 +299,7 @@ public class MainTab extends Fragment{
             textViewRealWeight.setText("27KG 이상!");
             rotateImg.setImageResource(R.drawable.ninetyover);
             circleImg.setImageResource(R.drawable.back90over);
+            nowAngleRange = NINETY_OVER;
             if(alarmMethod_index==0)//알림 방법:팝업(무음)
             {
                 cnt+=1;
@@ -375,6 +397,9 @@ public class MainTab extends Fragment{
     public class UserSensorListener implements SensorEventListener{
         @Override
         public void onSensorChanged(SensorEvent event) {
+
+            nowAngleTime = System.currentTimeMillis();
+
             switch (event.sensor.getType()){
 
                 /** GYROSCOPE */
@@ -405,7 +430,14 @@ public class MainTab extends Fragment{
 
             /**두 센서 새로운 값을 받으면 상보필터 적용*/
             if(gyroRunning && accRunning){
-                complementaty(event.timestamp);
+                complementary(event.timestamp);
+            }
+
+            if (howManyCalled == 0)
+                howManyCalled++;
+            else{
+                if (oldAngleRange == nowAngleRange){
+                }
             }
         }
         @Override
