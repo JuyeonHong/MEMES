@@ -390,15 +390,18 @@ public class MainTab extends Fragment {
     }
 
     class Toggle_Activity extends AppCompatActivity {
+        int button_status=1;
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fragment_main);
+
             final ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
+
             tb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (tb.isChecked()) {
+                    if (tb.isChecked()){
                         Intent intent = new Intent(Toggle_Activity.this, MyService.class);
                         stopService(intent);
 
