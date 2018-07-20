@@ -400,24 +400,21 @@ public class MainTab extends Fragment {
                 howManyCalled++;
             else {
                 if (oldAngleRange == nowAngleRange) {
-                    durationTime = durationTime + (nowAngleTime - oldAngleTime)/1000L;
-                    if (durationTime >= 10L) {
+                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
                         rangeCount();
-                        durationTime = 0L;
+                        oldAngleTime = nowAngleTime;
                     }
                 }
                 else {
-                    durationTime = durationTime + (nowAngleTime - oldAngleTime)/1000L;
-                    if (durationTime < 10L)
-                        durationTime = 0L;
-                    else {
+                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
                         rangeCount();
-                        durationTime = 0L;
                     }
+                    oldAngleRange = nowAngleRange;
+                    oldAngleTime = nowAngleTime;
                 }
             }
-            oldAngleRange = nowAngleRange;
-            oldAngleTime = nowAngleTime;
+
+
             countTest1.setText("015: " + count015 + ", 1530: " + count1530 + ", 3045: " + count3045);
             countTest2.setText("4560: " + count4560 + ", 6090: " + count6090 + ", 90over: " + count90over);
         }
