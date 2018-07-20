@@ -476,5 +476,6 @@ public class MainTab extends Fragment {
 
             );
         }
+        
     }
 }
