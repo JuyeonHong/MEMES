@@ -1,8 +1,12 @@
 package com.example.memes;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -86,12 +90,14 @@ public class MainTab extends Fragment {
             {Gravity.TOP, Gravity.CENTER_VERTICAL, Gravity.BOTTOM};
     private int mAlarmPeriodIndex = 0;
     private long mPreviousShowTime = 0;
+    private int mAppExeMethodindex = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
         textViewRealWeight = rootView.findViewById(R.id.textView_realWeight);
 
@@ -140,10 +146,26 @@ public class MainTab extends Fragment {
         getAlarmMethodListPreferencesData();
         getPopupLocationListPreferencesData();
         getAlarmPeriodListPreferencesData();
+        getAppExeMethodListPreferencesData();
+
         mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
 
         countTest = rootView.findViewById(R.id.textView_gotoTab2);
 
+        //
+        ComponentName component = new ComponentName(getContext(), AutoRun.class);
+        PackageManager pm = getContext().getPackageManager();
+        if(mAppExeMethodindex==0){
+            pm.setComponentEnabledSetting(
+                    component,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,0);
+        }
+        else if(mAppExeMethodindex==1){
+            pm.setComponentEnabledSetting(
+                    component,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
+        }
+        //
         return rootView;
     }
 
@@ -158,6 +180,7 @@ public class MainTab extends Fragment {
         getAlarmMethodListPreferencesData();
         getPopupLocationListPreferencesData();
         getAlarmPeriodListPreferencesData();
+        getAppExeMethodListPreferencesData();
     }
 
     @Override
@@ -333,6 +356,10 @@ public class MainTab extends Fragment {
 
     private void getAlarmPeriodListPreferencesData() {
         mAlarmPeriodIndex = getArrayIndex(R.array.alarmPeriodArray_values, mPref.getString("alarmPeriodList", "10"));
+    }
+
+    private void getAppExeMethodListPreferencesData() {
+        mAppExeMethodindex = getArrayIndex(R.array.appExeMethodArray_values, mPref.getString("appExeMethodList", "exeOnBooting"));
     }
 
     private int getArrayIndex(int array, String findIndex) {

@@ -1,6 +1,7 @@
 package com.example.memes;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         TabItem Maintab=findViewById(R.id.tabItem);
         TabItem AccTimetab=findViewById(R.id.tabItem2);
         TabItem Strectchingtab=findViewById(R.id.tabItem3);
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.app.Service;
 import android.content.*;
 
+//onCreate() → onStartCommand() → Service Running → onDestroy()
 
 public class MyService extends Service {
 
