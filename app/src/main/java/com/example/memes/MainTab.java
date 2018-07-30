@@ -338,10 +338,12 @@ public class MainTab extends Fragment {
     }
 
     private int getArrayIndex(int array, String findIndex) {
-        String[] arrayString = getResources().getStringArray(array);
-        for (int e = 0; e < arrayString.length; e++) {
-            if (arrayString[e].equals(findIndex))
-                return e;
+        if (getActivity() != null && isAdded()) {
+            String[] arrayString = getResources().getStringArray(array);
+            for (int e = 0; e < arrayString.length; e++) {
+                if (arrayString[e].equals(findIndex))
+                    return e;
+            }
         }
         return -1;
     }
