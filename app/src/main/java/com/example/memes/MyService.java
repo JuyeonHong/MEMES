@@ -48,7 +48,6 @@ public class MyService extends Service {
     @Override
     public void onDestroy() {
         Log.e("LOG", "서비스 종료");
-
         super.onDestroy();
     }
 

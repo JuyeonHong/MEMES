@@ -34,7 +34,8 @@ public class MainTab extends Fragment {
     private ImageButton settingsImgBtn;
     private ImageView rotateImg;
     private ImageView circleImg;
-    private TextView countTest;
+    private TextView countTest1;
+    private TextView countTest2;
 
     /*Used for Accelometer & Gyroscoper*/
     private SensorManager mSensorManager = null;
@@ -150,7 +151,8 @@ public class MainTab extends Fragment {
 
         mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
 
-        countTest = rootView.findViewById(R.id.textView_gotoTab2);
+        countTest1 = rootView.findViewById(R.id.textViewTemp1);
+        countTest2 = rootView.findViewById(R.id.textViewTemp2);
 
         //
         ComponentName component = new ComponentName(getContext(), AutoRun.class);
@@ -363,10 +365,12 @@ public class MainTab extends Fragment {
     }
 
     private int getArrayIndex(int array, String findIndex) {
-        String[] arrayString = getResources().getStringArray(array);
-        for (int e = 0; e < arrayString.length; e++) {
-            if (arrayString[e].equals(findIndex))
-                return e;
+        if (getActivity() != null && isAdded()) {
+            String[] arrayString = getResources().getStringArray(array);
+            for (int e = 0; e < arrayString.length; e++) {
+                if (arrayString[e].equals(findIndex))
+                    return e;
+            }
         }
         return -1;
     }
@@ -387,9 +391,7 @@ public class MainTab extends Fragment {
     public class UserSensorListener implements SensorEventListener {
         @Override
         public void onSensorChanged(SensorEvent event) {
-
             nowAngleTime = System.currentTimeMillis();
-
             switch (event.sensor.getType()) {
 
                 /** GYROSCOPE */
@@ -427,13 +429,54 @@ public class MainTab extends Fragment {
                 howManyCalled++;
             else {
                 if (oldAngleRange == nowAngleRange) {
+                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
+                        rangeCount();
+                        oldAngleTime = nowAngleTime;
+                    }
+                }
+                else {
+                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
+                        rangeCount();
+                    }
+                    oldAngleRange = nowAngleRange;
+                    oldAngleTime = nowAngleTime;
                 }
             }
+
+
+            countTest1.setText("015: " + count015 + ", 1530: " + count1530 + ", 3045: " + count3045);
+            countTest2.setText("4560: " + count4560 + ", 6090: " + count6090 + ", 90over: " + count90over);
         }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
+    }
+
+    private void rangeCount(){
+        switch (oldAngleRange){
+            case ZERO_FIFTEEN:
+                count015++;
+                break;
+            case FIFTEEN_THIRTY:
+                count1530++;
+                break;
+            case THIRTY_FORTYFIVE:
+                count3045++;
+                break;
+            case FORTYFIVE_SIXTY:
+                count4560++;
+                break;
+            case SIXTY_NINETY:
+                count6090++;
+                break;
+            case NINETY_OVER:
+                count90over++;
+                break;
+            default:
+                break;
+        }
+        allcount++;
     }
 
     class Toggle_Activity extends AppCompatActivity {
@@ -462,5 +505,6 @@ public class MainTab extends Fragment {
 
             );
         }
+        
     }
 }
