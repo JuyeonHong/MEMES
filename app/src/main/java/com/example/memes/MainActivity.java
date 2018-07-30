@@ -1,6 +1,7 @@
 package com.example.memes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.view.View.OnClickListener;
 import android.content.Intent;
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private MyService mService;
     private boolean isBlind;
+
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
 
     @Override
@@ -183,6 +188,19 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             // Show 3 total pages.
             return 3;
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime)
+            super.onBackPressed();
+        else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번 더 뒤로가기 누르면 꺼버린다.", Toast.LENGTH_SHORT).show();
         }
     }
 }
