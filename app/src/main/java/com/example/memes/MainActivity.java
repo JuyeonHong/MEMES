@@ -1,6 +1,7 @@
 package com.example.memes;
 
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -52,11 +53,16 @@ public class MainActivity extends AppCompatActivity {
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
 
+    public static FragmentManager fragmentManager;
+    public static MemesDatabase memesDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentManager = getSupportFragmentManager();
+        memesDatabase = Room.databaseBuilder(getApplicationContext(), MemesDatabase.class, "userdb").allowMainThreadQueries().build();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
