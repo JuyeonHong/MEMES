@@ -68,13 +68,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewTemp1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="test1" />
-
-        <TextView
             android:id="@+id/textView_gotoTab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
