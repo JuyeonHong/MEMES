@@ -1,6 +1,7 @@
 package com.example.memes;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
@@ -20,4 +21,7 @@ public interface RangeCountDao {
 
     @Query("select * from range_count where date = :date")
     public RangeCount getRecordByDate(int date);
+
+    @Delete
+    public void deleteRecord(RangeCount rangeCount);
 }
