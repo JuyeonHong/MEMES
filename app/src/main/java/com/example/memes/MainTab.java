@@ -427,13 +427,13 @@ public class MainTab extends Fragment {
                 howManyCalled++;
             else {
                 if (oldAngleRange == nowAngleRange) {
-                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
+                    if (nowAngleTime - oldAngleTime > 3 * SECOND) {
                         rangeCount();
                         oldAngleTime = nowAngleTime;
                     }
                 }
                 else {
-                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
+                    if (nowAngleTime - oldAngleTime > 3 * SECOND) {
                         rangeCount();
                     }
                     oldAngleRange = nowAngleRange;
