@@ -2,7 +2,7 @@ package com.example.memes;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.content.Context
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
@@ -22,6 +22,7 @@ import android.view.View;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.view.View.OnClickListener;
 import android.content.Intent;
+import android.graphics.Color;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
-
+    public static final String SHOULD_FINISH = "should_finish";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        final Button tb = (Button) findViewById(R.id.toggleButton);
+        tb.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                finish();
+            }
+        });
 
         //tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -100,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorPrimary));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorPrimary));
+                    tb.setTextColor(getResources().getColor(R.color.background));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorPrimary));
@@ -110,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorAccent));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorAccent));
+                    tb.setTextColor(getResources().getColor(R.color.background));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorAccent));
@@ -119,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorPrimaryDark));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorPrimaryDark));
+                    tb.setTextColor(getResources().getColor(R.color.sttext));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorPrimaryDark));
@@ -138,6 +149,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
+
+//        final Button tb = (Button) findViewById(R.id.toggleButton);
+//          tb.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v){
+//                finish();
+//            }
+//        });
+
+
     }
 
     @Override
@@ -203,4 +224,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "한번 더 뒤로가기 누르면 꺼버린다.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+
+
+
+
+
 }
