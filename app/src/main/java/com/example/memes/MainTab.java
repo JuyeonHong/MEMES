@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -479,32 +480,54 @@ public class MainTab extends Fragment {
         allcount++;
     }
 
-    class Toggle_Activity extends AppCompatActivity {
-        int button_status = 1;
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fragment_main);
 
-            final ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
-
-            tb.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          if (tb.isChecked()) {
-                                              Intent intent = new Intent(Toggle_Activity.this, MyService.class);
-                                              stopService(intent);
-
-                                          } else {
-                                              Intent intent = new Intent(Toggle_Activity.this, MyService.class);
-                                              startService(intent);
-                                          }
-                                      }
-                                  }
-
-            );
-        }
-        
-    }
+//    public class Toggle_Activity extends AppCompatActivity {
+//
+//        @Override
+//        public void onCreate(Bundle savedInstanceState) {
+//            super.onCreate(savedInstanceState);
+//            setContentView(R.layout.fragment_main);
+//
+//            final Button tb = (Button) findViewById(R.id.toggleButton);
+//
+//
+//
+//
+//
+//            tb.setOnClickListener(new View.OnClickListener() {
+//
+//                                      public void onClick(View v) {
+////                                          MainActivity activity= (MainActivity)getActivity();
+////                                          Intent intent = new Intent(Toggle_Activity.this, MainActivity.class );
+////                                          activity.finish()
+//// ;
+////
+//                                          switch(v.getId()){
+//                                              case R.id.toggleButton:
+//                                                  Intent intent = new Intent(Toggle_Activity.this, MainActivity.class);
+//                                                  startActivity(intent);
+//                                                  break;
+//                                          }
+//
+////                                              intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+////                                              getActivity().finish();
+//
+////                                          Intent intent= new Intent(getContext(), MyService.class);
+////                                          getContext().stopService(intent);
+//
+//
+//
+//
+//
+//
+//
+//                                      }
+//                                  }
+//
+//            );
+//        }
+//
+//    }
 }
