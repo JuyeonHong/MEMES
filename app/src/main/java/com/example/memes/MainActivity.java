@@ -23,6 +23,7 @@ import android.view.View;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.content.ComponentName;
 import android.content.ServiceConnection;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.view.View.OnClickListener;
 import android.content.Intent;
+import android.graphics.Color;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static FragmentManager fragmentManager;
     public static MemesDatabase memesDatabase;
+    public static final String SHOULD_FINISH = "should_finish";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        final Button tb = (Button) findViewById(R.id.toggleButton);
+        tb.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                finish();
+            }
+        });
 
         //tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -109,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorPrimary));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorPrimary));
+                    tb.setTextColor(getResources().getColor(R.color.background));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorPrimary));
@@ -119,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorAccent));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorAccent));
+                    tb.setTextColor(getResources().getColor(R.color.background));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorAccent));
@@ -128,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorPrimaryDark));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorPrimaryDark));
+                    tb.setTextColor(getResources().getColor(R.color.sttext));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorPrimaryDark));
@@ -145,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
         //오늘 날짜에 해당하는 key 값이 존재하는지 확인 후 없으면 insert
         long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -179,6 +190,12 @@ public class MainActivity extends AppCompatActivity {
         }
         else
             System.out.println("오늘 날짜가 테이블에 존재합니다.");
+//        final Button tb = (Button) findViewById(R.id.toggleButton);
+//          tb.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v){
+//                finish();
+//            }
+//        });
     }
 
     @Override

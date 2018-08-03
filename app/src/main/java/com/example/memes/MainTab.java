@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -155,12 +156,11 @@ public class MainTab extends Fragment {
 
         ComponentName component = new ComponentName(getContext(), AutoRun.class);
         PackageManager pm = getContext().getPackageManager();
-        if(mAppExeMethodindex==0){
+        if (mAppExeMethodindex == 0) {
             pm.setComponentEnabledSetting(
                     component,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,0);
-        }
-        else if(mAppExeMethodindex==1){
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
+        } else if (mAppExeMethodindex == 1) {
             pm.setComponentEnabledSetting(
                     component,
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
@@ -431,8 +431,7 @@ public class MainTab extends Fragment {
                         rangeCount();
                         oldAngleTime = nowAngleTime;
                     }
-                }
-                else {
+                } else {
                     if (nowAngleTime - oldAngleTime > 3 * SECOND) {
                         rangeCount();
                     }
@@ -447,7 +446,7 @@ public class MainTab extends Fragment {
         }
     }
 
-    private void rangeCount(){
+    private void rangeCount() {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -456,7 +455,7 @@ public class MainTab extends Fragment {
 
         RangeCount rc = MainActivity.memesDatabase.rangeCountDao().getRecordByDate(strToInt);
 
-        switch (oldAngleRange){
+        switch (oldAngleRange) {
             case ZERO_FIFTEEN:
                 int zf = rc.getRange0_15();
                 zf = zf + 1;
@@ -494,33 +493,5 @@ public class MainTab extends Fragment {
         sum = sum + 1;
         rc.setSumOfAll(sum);
         MainActivity.memesDatabase.rangeCountDao().updateCount(rc);
-    }
-
-    class Toggle_Activity extends AppCompatActivity {
-        int button_status = 1;
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fragment_main);
-
-            final ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
-
-            tb.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          if (tb.isChecked()) {
-                                              Intent intent = new Intent(Toggle_Activity.this, MyService.class);
-                                              stopService(intent);
-
-                                          } else {
-                                              Intent intent = new Intent(Toggle_Activity.this, MyService.class);
-                                              startService(intent);
-                                          }
-                                      }
-                                  }
-
-            );
-        }
     }
 }
