@@ -166,30 +166,35 @@ public class AccuTimeTab extends Fragment{
         ArrayList<String> yLabels = getLabels();
         int yesterday = getYesterdayTime();
 
+
         RangeCount rangeCount = MainActivity.memesDatabase.rangeCountDao().getRecordByDate(yesterday);
-        float range0_15 = (float)rangeCount.getRange0_15();
-        float range15_30 = (float)rangeCount.getRange15_30();
-        float range30_45 = (float)rangeCount.getRange30_45();
-        float range45_60 = (float)rangeCount.getRange45_60();
-        float range60_90 = (float)rangeCount.getRange60_90();
-        float range90over = (float)rangeCount.getRange90over();
+        if(rangeCount != null) {
+            float range0_15 = (float) rangeCount.getRange0_15();
+            float range15_30 = (float) rangeCount.getRange15_30();
+            float range30_45 = (float) rangeCount.getRange30_45();
+            float range45_60 = (float) rangeCount.getRange45_60();
+            float range60_90 = (float) rangeCount.getRange60_90();
+            float range90over = (float) rangeCount.getRange90over();
 
-        ArrayList<Entry> yEntries = new ArrayList<>();
-        yEntries.add(new Entry(range0_15, 0));
-        yEntries.add(new Entry(range15_30, 1));
-        yEntries.add(new Entry(range30_45, 2));
-        yEntries.add(new Entry(range45_60, 3));
-        yEntries.add(new Entry(range60_90, 4));
-        yEntries.add(new Entry(range90over, 5));
+            ArrayList<Entry> yEntries = new ArrayList<>();
+            yEntries.add(new Entry(range0_15, 0));
+            yEntries.add(new Entry(range15_30, 1));
+            yEntries.add(new Entry(range30_45, 2));
+            yEntries.add(new Entry(range45_60, 3));
+            yEntries.add(new Entry(range60_90, 4));
+            yEntries.add(new Entry(range90over, 5));
 
-        PieDataSet yDataSet = new PieDataSet(yEntries, "어제 나의 자세");
-        yDataSet.setColors(new int[] {Color.RED, Color.GREEN, Color.MAGENTA, Color.GRAY, Color.CYAN, Color.LTGRAY});
-        yDataSet.setValueTextSize(14f);
-        PieData yData = new PieData(yLabels, yDataSet);
-        yPieChart.setUsePercentValues(true);
-        yPieChart.setDrawHoleEnabled(false);
-        yPieChart.setData(yData);
-        yPieChart.invalidate();
+            PieDataSet yDataSet = new PieDataSet(yEntries, "어제 나의 자세");
+            yDataSet.setColors(new int[]{Color.RED, Color.GREEN, Color.MAGENTA, Color.GRAY, Color.CYAN, Color.LTGRAY});
+            yDataSet.setValueTextSize(14f);
+            PieData yData = new PieData(yLabels, yDataSet);
+            yPieChart.setUsePercentValues(true);
+            yPieChart.setDrawHoleEnabled(false);
+            yPieChart.setData(yData);
+            yPieChart.invalidate();
+        }
+
+
     }
 
     private void getTodayPieData() {
