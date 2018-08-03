@@ -1,6 +1,7 @@
 package com.example.memes;
 
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -32,6 +33,9 @@ import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -53,12 +57,18 @@ public class MainActivity extends AppCompatActivity {
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
+
+    public static FragmentManager fragmentManager;
+    public static MemesDatabase memesDatabase;
     public static final String SHOULD_FINISH = "should_finish";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentManager = getSupportFragmentManager();
+        memesDatabase = Room.databaseBuilder(getApplicationContext(), MemesDatabase.class, "userdb").allowMainThreadQueries().build();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -146,19 +156,46 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
-
-
         });
+        //오늘 날짜에 해당하는 key 값이 존재하는지 확인 후 없으면 insert
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String getTime = sdf.format(date);
+        int strToInt = Integer.parseInt(getTime);
 
+        RangeCount rangeCount1 = memesDatabase.rangeCountDao().getRecordByDate(strToInt);
+        if(rangeCount1 == null) {
+            int today = strToInt;
+            int range0_15 = 0;
+            int range15_30 = 0;
+            int range30_45 = 0;
+            int range45_60 = 0;
+            int range60_90 = 0;
+            int range90over = 0;
+            int sum = 0;
 
+            RangeCount rc = new RangeCount();
+            rc.setDate(today);
+            rc.setRange0_15(range0_15);
+            rc.setRange15_30(range15_30);
+            rc.setRange30_45(range30_45);
+            rc.setRange45_60(range45_60);
+            rc.setRange60_90(range60_90);
+            rc.setRange90over(range90over);
+            rc.setSumOfAll(sum);
+
+            memesDatabase.rangeCountDao().addToday(rc);
+            System.out.println("insert 성공!");
+        }
+        else
+            System.out.println("오늘 날짜가 테이블에 존재합니다.");
 //        final Button tb = (Button) findViewById(R.id.toggleButton);
 //          tb.setOnClickListener(new View.OnClickListener(){
 //            public void onClick(View v){
 //                finish();
 //            }
 //        });
-
-
     }
 
     @Override
@@ -224,12 +261,4 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "한번 더 뒤로가기 누르면 꺼버린다.", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
-
-
-
-
 }
