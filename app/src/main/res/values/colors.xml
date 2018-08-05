@@ -15,5 +15,6 @@
     <color name="color4560">#ff6600</color>
     <color name="color6090">#ff4500</color>
     <color name="colorOver90">#ff0000</color>
+    <color name="newbackground">#F1ECD8</color> //EDE3D2 -> F1ECD8(Papyrus)
 </resources>
 
