@@ -20,11 +20,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class MainTab extends Fragment {
 
@@ -34,8 +39,6 @@ public class MainTab extends Fragment {
     private ImageButton settingsImgBtn;
     private ImageView rotateImg;
     private ImageView circleImg;
-    private TextView countTest1;
-    private TextView countTest2;
 
     /*Used for Accelometer & Gyroscoper*/
     private SensorManager mSensorManager = null;
@@ -151,23 +154,18 @@ public class MainTab extends Fragment {
 
         mToast = Toast.makeText(getActivity(), "null", Toast.LENGTH_SHORT);
 
-        countTest1 = rootView.findViewById(R.id.textViewTemp1);
-        countTest2 = rootView.findViewById(R.id.textViewTemp2);
-
-        //
         ComponentName component = new ComponentName(getContext(), AutoRun.class);
         PackageManager pm = getContext().getPackageManager();
-        if(mAppExeMethodindex==0){
+        if (mAppExeMethodindex == 0) {
             pm.setComponentEnabledSetting(
                     component,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,0);
-        }
-        else if(mAppExeMethodindex==1){
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
+        } else if (mAppExeMethodindex == 1) {
             pm.setComponentEnabledSetting(
                     component,
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
         }
-        //
+
         return rootView;
     }
 
@@ -429,23 +427,18 @@ public class MainTab extends Fragment {
                 howManyCalled++;
             else {
                 if (oldAngleRange == nowAngleRange) {
-                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
+                    if (nowAngleTime - oldAngleTime > 3 * SECOND) {
                         rangeCount();
                         oldAngleTime = nowAngleTime;
                     }
-                }
-                else {
-                    if (nowAngleTime - oldAngleTime > 10 * SECOND) {
+                } else {
+                    if (nowAngleTime - oldAngleTime > 3 * SECOND) {
                         rangeCount();
                     }
                     oldAngleRange = nowAngleRange;
                     oldAngleTime = nowAngleTime;
                 }
             }
-
-
-            countTest1.setText("015: " + count015 + ", 1530: " + count1530 + ", 3045: " + count3045);
-            countTest2.setText("4560: " + count4560 + ", 6090: " + count6090 + ", 90over: " + count90over);
         }
 
         @Override
@@ -453,58 +446,52 @@ public class MainTab extends Fragment {
         }
     }
 
-    private void rangeCount(){
-        switch (oldAngleRange){
+    private void rangeCount() {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String getTime = sdf.format(date);
+        int strToInt = Integer.parseInt(getTime);
+
+        RangeCount rc = MainActivity.memesDatabase.rangeCountDao().getRecordByDate(strToInt);
+
+        switch (oldAngleRange) {
             case ZERO_FIFTEEN:
-                count015++;
+                int zf = rc.getRange0_15();
+                zf = zf + 1;
+                rc.setRange0_15(zf);
                 break;
             case FIFTEEN_THIRTY:
-                count1530++;
+                int ft = rc.getRange15_30();
+                ft = ft + 1;
+                rc.setRange15_30(ft);
                 break;
             case THIRTY_FORTYFIVE:
-                count3045++;
+                int tf = rc.getRange30_45();
+                tf = tf + 1;
+                rc.setRange30_45(tf);
                 break;
             case FORTYFIVE_SIXTY:
-                count4560++;
+                int fs = rc.getRange45_60();
+                fs = fs + 1;
+                rc.setRange45_60(fs);
                 break;
             case SIXTY_NINETY:
-                count6090++;
+                int sn = rc.getRange60_90();
+                sn = sn + 1;
+                rc.setRange60_90(sn);
                 break;
             case NINETY_OVER:
-                count90over++;
+                int no = rc.getRange90over();
+                no = no + 1;
+                rc.setRange90over(no);
                 break;
             default:
                 break;
         }
-        allcount++;
-    }
-
-    class Toggle_Activity extends AppCompatActivity {
-        int button_status = 1;
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fragment_main);
-
-            final ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
-
-            tb.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          if (tb.isChecked()) {
-                                              Intent intent = new Intent(Toggle_Activity.this, MyService.class);
-                                              stopService(intent);
-
-                                          } else {
-                                              Intent intent = new Intent(Toggle_Activity.this, MyService.class);
-                                              startService(intent);
-                                          }
-                                      }
-                                  }
-
-            );
-        }
-        
+        int sum = rc.getSumOfAll();
+        sum = sum + 1;
+        rc.setSumOfAll(sum);
+        MainActivity.memesDatabase.rangeCountDao().updateCount(rc);
     }
 }
