@@ -2,7 +2,7 @@ package com.example.memes;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.content.Context
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
