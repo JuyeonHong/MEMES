@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     //진동기능추가
     <application
         android:allowBackup="true"
@@ -58,6 +59,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/new_app_widget_info" />
         </receiver>
+        <service android:name="com.example.memes.FloatingFaceBubbleService"
+            android:enabled="true"
+            android:exported="false"
+            />
 
     </application>
 

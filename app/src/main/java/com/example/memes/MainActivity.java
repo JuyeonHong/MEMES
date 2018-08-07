@@ -1,10 +1,13 @@
 package com.example.memes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -19,8 +22,10 @@ import android.os.Bundle;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,11 +45,46 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    public static final int SYSTEM_ALERT_WINDOW_PERMISSION = 7;
+    Button button ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        button = (Button)findViewById(R.id.buttonShow);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+
+            RuntimePermissionForUser();
+        }
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+
+                    startService(new Intent(MainActivity.this, FloatingFaceBubbleService.class));
+
+                    finish();
+
+                } else if (Settings.canDrawOverlays(MainActivity.this)) {
+
+                    startService(new Intent(MainActivity.this, FloatingFaceBubbleService.class));
+
+                    finish();
+
+                } else {
+                    RuntimePermissionForUser();
+
+                    Toast.makeText(MainActivity.this, "System Alert Window Permission Is Required For Floating Widget.", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         TabItem Maintab=findViewById(R.id.tabItem);
         TabItem AccTimetab=findViewById(R.id.tabItem2);
         TabItem Strectchingtab=findViewById(R.id.tabItem3);
+
+
 
 
         // Create the adapter that will return a fragment for each of the three
@@ -114,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
@@ -124,6 +168,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void RuntimePermissionForUser() {
+
+        Intent PermissionIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + getPackageName()));
+
+        startActivityForResult(PermissionIntent, SYSTEM_ALERT_WINDOW_PERMISSION);
     }
 
     @Override
