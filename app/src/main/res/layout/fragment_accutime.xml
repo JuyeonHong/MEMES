@@ -11,16 +11,13 @@
 
         <LinearLayout
             android:layout_width="500dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="190dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp"
-            tools:ignore="MissingConstraints">
+            android:layout_height="70dp">
 
             <Button
                 android:id="@+id/btn_reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:text="초기화" />
 
             <Button
@@ -29,6 +26,18 @@
                 android:layout_height="wrap_content"
                 android:text="새로고침"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="세로축: 특정 각도의 비율(%)" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="가로축: 목각도(°)"
+            android:layout_marginBottom="15dp"/>
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/todayBarChart"
@@ -52,6 +61,17 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="20dp"
             android:id="@+id/yesterdayVersusToday2"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="위: 특정 각도의 비율(%)"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="아래: 목각도(°)"
+            android:layout_marginBottom="15dp"/>
 
         <com.github.mikephil.charting.charts.PieChart
             android:layout_width="match_parent"
@@ -64,7 +84,5 @@
             android:layout_height="380dp"
             android:id="@+id/todayPieChart"
             android:layout_marginBottom="100dp"/>
-
     </LinearLayout>
-
 </ScrollView>
