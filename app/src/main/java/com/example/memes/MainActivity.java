@@ -94,12 +94,12 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        final Button tb = (Button) findViewById(R.id.toggleButton);
-        tb.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                finish();
-            }
-        });
+//        final Button tb = (Button) findViewById(R.id.toggleButton);
+//        tb.setOnClickListener(new View.OnClickListener(){
+//            public void onClick(View v){
+//                finish();
+//            }
+//        });
 
         //tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorPrimary));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorPrimary));
-                    tb.setTextColor(getResources().getColor(R.color.background));
+//                    tb.setTextColor(getResources().getColor(R.color.background));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorPrimary));
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorAccent));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorAccent));
-                    tb.setTextColor(getResources().getColor(R.color.background));
+//                    tb.setTextColor(getResources().getColor(R.color.background));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorAccent));
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                             R.color.colorPrimaryDark));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MainActivity.this,
                             R.color.colorPrimaryDark));
-                    tb.setTextColor(getResources().getColor(R.color.sttext));
+//                    tb.setTextColor(getResources().getColor(R.color.sttext));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,
                                 R.color.colorPrimaryDark));
