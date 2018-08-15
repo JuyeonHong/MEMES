@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -35,6 +36,7 @@ public class MainTab extends Fragment {
 
     private TextView textViewRealAngle;
     private TextView textViewRealWeight;
+    private TextView textView_gotoTab2;
     private ImageButton infoImgBtn;
     private ImageButton settingsImgBtn;
     private ImageView rotateImg;
@@ -102,8 +104,13 @@ public class MainTab extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        TextView txt= rootView.findViewById(R.id.textView_angle);
+        txt.setPaintFlags(txt.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
+        TextView txt2= rootView.findViewById(R.id.textView_realAngle);
+        txt2.setPaintFlags(txt2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
         textViewRealWeight = rootView.findViewById(R.id.textView_realWeight);
+        textView_gotoTab2 = rootView.findViewById(R.id.textView_gotoTab2);
 
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         userSensorListener = new UserSensorListener();
@@ -190,7 +197,7 @@ public class MainTab extends Fragment {
         mSensorManager.unregisterListener(userSensorListener);
     }
 
-    /* 1차 상보필터 적용 메서드 */
+
     private void complementary(double new_ts) {
 
         /* 자이로랑 가속 해제 */
