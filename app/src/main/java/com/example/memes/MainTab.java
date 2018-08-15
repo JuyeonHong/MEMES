@@ -79,8 +79,6 @@ public class MainTab extends Fragment {
 
     long oldAngleTime, nowAngleTime;
     int oldAngleRange, nowAngleRange;
-    long durationTime = 0L;
-    int count015 = 0, count1530 = 0, count3045 = 0, count4560 = 0, count6090 = 0, count90over = 0, allcount = 0;
     private int howManyCalled = 0;
 
     private static long SECOND = 1000;
@@ -172,6 +170,13 @@ public class MainTab extends Fragment {
                     component,
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
         }
+
+        Button btn = rootView.findViewById(R.id.toggleButton);
+        btn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                getActivity().finish();
+            }
+        });
 
         return rootView;
     }
