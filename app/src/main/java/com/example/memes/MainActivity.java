@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         else {
             backPressedTime = tempTime;
-            Toast.makeText(getApplicationContext(), "한번 더 뒤로가기 누르면 꺼버린다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "한번 더 누르면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }
