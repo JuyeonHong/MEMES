@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -35,6 +36,7 @@ public class MainTab extends Fragment {
 
     private TextView textViewRealAngle;
     private TextView textViewRealWeight;
+    private TextView textView_gotoTab2;
     private ImageButton infoImgBtn;
     private ImageButton settingsImgBtn;
     private ImageView rotateImg;
@@ -77,8 +79,6 @@ public class MainTab extends Fragment {
 
     long oldAngleTime, nowAngleTime;
     int oldAngleRange, nowAngleRange;
-    long durationTime = 0L;
-    int count015 = 0, count1530 = 0, count3045 = 0, count4560 = 0, count6090 = 0, count90over = 0, allcount = 0;
     private int howManyCalled = 0;
 
     private static long SECOND = 1000;
@@ -102,8 +102,13 @@ public class MainTab extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        TextView txt= rootView.findViewById(R.id.textView_angle);
+        txt.setPaintFlags(txt.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
+        TextView txt2= rootView.findViewById(R.id.textView_realAngle);
+        txt2.setPaintFlags(txt2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //밑줄긋기
         textViewRealAngle = rootView.findViewById(R.id.textView_realAngle);
         textViewRealWeight = rootView.findViewById(R.id.textView_realWeight);
+        textView_gotoTab2 = rootView.findViewById(R.id.textView_gotoTab2);
 
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         userSensorListener = new UserSensorListener();
@@ -166,6 +171,13 @@ public class MainTab extends Fragment {
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 0);
         }
 
+        Button btn = rootView.findViewById(R.id.toggleButton);
+        btn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                getActivity().finish();
+            }
+        });
+
         return rootView;
     }
 
@@ -190,7 +202,7 @@ public class MainTab extends Fragment {
         mSensorManager.unregisterListener(userSensorListener);
     }
 
-    /* 1차 상보필터 적용 메서드 */
+
     private void complementary(double new_ts) {
 
         /* 자이로랑 가속 해제 */
